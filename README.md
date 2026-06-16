@@ -35,4 +35,4 @@ Unlike most modern web demos that rely heavily on heavy server-side AI models or
 
 1. Clone this repository:
    ```bash
-   git clone [[https://github.com/yourusername/facegrid.git](https://github.com/yourusername/facegrid.git)](https://github.com/Racheli76/FaceGrid.git)
+   git clone https://github.com/Racheli76/FaceGrid.git
