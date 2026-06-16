@@ -2,7 +2,7 @@
 
 An advanced, interactive 3D face geometry simulator built entirely with WebGL and Three.js. Experience instant, hardware-accelerated spatial depth mapping right inside your browser—**0% AI APIs, 100% Pure Mathematical Client-Side Precision.**
 
-[🔗 Launch Live Demo / כניסה לאפליקציה](https://Racheli76.github.io/facegrid) *(החליפי פה לקישור של ה-GitHub Pages שלך לאחר שתפעילי אותו)*
+[🔗 Launch Live Demo / כניסה לאפליקציה]( https://racheli76.github.io/FaceGrid/) 
 
 ---
 
