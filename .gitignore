@@ -1,0 +1,24 @@
+# Node / build artifacts
+node_modules/
+dist/
+build/
+
+# Environment files
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Others
+coverage/

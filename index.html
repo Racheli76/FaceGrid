@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaceGrid Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- מנוע התלת-ממד הרשמי -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+    <!-- אלמנט ספירה לאחור ענקי -->
+    <div id="countdown-overlay">4</div>
+
+    <!-- תפריט כפתורים עליון מרכזי -->
+    <div id="top-navigation">
+        <button id="btn-classic" class="fx-btn active" onclick="changeStyle('classic', this)">אווטאר אנושי 3D</button>
+        <button id="btn-particles" class="fx-btn" onclick="changeStyle('particles', this)">פיקסלים מרחפים</button>
+        <button id="btn-liquid" class="fx-btn" onclick="changeStyle('liquid', this)">גלי מים נוזליים</button>
+        <button id="btn-grid" class="fx-btn" onclick="changeStyle('grid', this)">רשת גיאומטרית</button>
+        <button id="btn-rain" class="fx-btn" onclick="changeStyle('rain', this)">טיפות מטריקס</button>
+        <button id="btn-photo" class="fx-btn photo-btn" onclick="startPhotoWorkflow()">📸 צילום (4 שנ')</button>
+        <button id="btn-record" class="fx-btn record-btn" onclick="toggleVideoRecording(this)">🎥 הקלטת וידאו</button>
+    </div>
+
+    <!-- קונטרולר צדדי: צבעים, עוצמה ושפה -->
+    <div id="side-panel">
+        <div class="panel-section">
+            <div id="lbl-color" class="section-label">צבע אפקט</div>
+            <div class="color-picker-grid">
+                <div class="color-dot active" style="background: #ffffff;" onclick="changeColor('#ffffff', this)"></div>
+                <div class="color-dot" style="background: #00ffcc;" onclick="changeColor('#00ffcc', this)"></div>
+                <div class="color-dot" style="background: #ff0077;" onclick="changeColor('#ff0077', this)"></div>
+                <div class="color-dot" style="background: #ffaa00;" onclick="changeColor('#ffaa00', this)"></div>
+                <div class="color-dot" style="background: #0077ff;" onclick="changeColor('#0077ff', this)"></div>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <div id="lbl-depth" class="section-label">עוצמת עומק</div>
+            <input type="range" id="depth-slider" min="5" max="35" value="19" oninput="updateDepthIntensity(this.value)">
+        </div>
+
+        <div class="panel-section">
+            <button class="lang-toggle-btn" onclick="toggleLanguage()">EN | HE</button>
+        </div>
+    </div>
+
+    <!-- לוגו מותג תחתון -->
+    <div id="brand-overlay">
+        <h1>FACEGRID</h1>
+        <p id="brand-sub">MATRIX DEPTH SCANNER // v1.0</p>
+    </div>
+
+    <!-- חלונית מצלמה מקומית -->
+    <div id="webcam-container">
+        <video id="webcam" autoplay playsinline muted></video>
+        <button id="btn-toggle-cam" class="toggle-cam-btn" onclick="toggleCam()">מצלמה גלויה</button>
+    </div>
+    
+    <!-- קנבס הרינדור -->
+    <div id="canvas-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
