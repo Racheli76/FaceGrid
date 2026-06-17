@@ -51,12 +51,12 @@ const translations = {
     }
 };
 
-navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } })
+navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: true })
     .then(stream => {
         video.srcObject = stream;
         init3DStudio();
     })
-    .catch(err => alert("יש לאשר גישה למצלמה."));
+    .catch(err => alert("יש לאשר גישה למצלמה והמיקרופון."));
 
 function init3DStudio() {
     scene = new THREE.Scene();
@@ -268,15 +268,40 @@ function takeSnapshot() {
     link.click();
 }
 
-function toggleVideoRecording(btn) {
+async function toggleVideoRecording(btn) {
     const t = translations[currentLang];
     if (!isRecording) {
         recordedChunks = [];
-        const stream = renderer.domElement.captureStream(60);
-        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-        
+
+        // capture canvas video stream
+        const canvasStream = renderer.domElement.captureStream(60);
+
+        // create a new stream and add video tracks
+        const mixedStream = new MediaStream();
+        canvasStream.getVideoTracks().forEach(t => mixedStream.addTrack(t));
+
+        // if the camera stream (video.srcObject) has audio tracks, add them
+        if (video.srcObject && typeof video.srcObject.getAudioTracks === 'function') {
+            video.srcObject.getAudioTracks().forEach(t => mixedStream.addTrack(t));
+        } else {
+            // fallback: try to request microphone permission at recording time
+            try {
+                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioStream.getAudioTracks().forEach(t => mixedStream.addTrack(t));
+            } catch (err) {
+                console.warn('No audio stream available or permission denied', err);
+            }
+        }
+
+        // let browser choose best container/codecs; include opus for audio when possible
+        try {
+            mediaRecorder = new MediaRecorder(mixedStream, { mimeType: 'video/webm;codecs=vp9,opus' });
+        } catch (err) {
+            mediaRecorder = new MediaRecorder(mixedStream);
+        }
+
         mediaRecorder.ondataavailable = (e) => {
-            if (e.data.size > 0) recordedChunks.push(e.data);
+            if (e.data && e.data.size > 0) recordedChunks.push(e.data);
         };
 
         mediaRecorder.onstop = () => {
